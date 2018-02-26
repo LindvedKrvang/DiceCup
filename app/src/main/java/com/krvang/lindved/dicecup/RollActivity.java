@@ -16,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class RollActivity extends AppCompatActivity {
 
     private final int ROW_DIVIDER = 3;
@@ -24,6 +28,8 @@ public class RollActivity extends AppCompatActivity {
     private ImageButton mHistoryButton;
     private LinearLayout mDiceLayout;
     private Spinner mNumbersSpinner;
+
+    private List<Dice> mDices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,10 @@ public class RollActivity extends AppCompatActivity {
     private void initializeLayout(){
         mDiceLayout = findViewById(R.id.diceLayout);
         createDiceBoard(Integer.parseInt(mNumbersSpinner.getSelectedItem().toString()));
+    }
+
+    private void initializeButtons(){
+        mRollButton = findViewById(R.id.btnRoll);
     }
 
     private void initializeSpinner(){
@@ -62,12 +72,13 @@ public class RollActivity extends AppCompatActivity {
     }
 
     private void createDiceBoard(int amount){
+        mDices = new ArrayList<>();
         mDiceLayout.removeAllViews();
         LinearLayout firstRow = new LinearLayout(this);
         firstRow.setGravity(Gravity.CENTER);
         for (int i = 0; i < ROW_DIVIDER; i++){
             if(i < amount){
-                createSingleDice(firstRow);
+                createSingleDice(firstRow, mDices);
             }
         }
         mDiceLayout.addView(firstRow);
@@ -75,22 +86,68 @@ public class RollActivity extends AppCompatActivity {
             LinearLayout secondRow = new LinearLayout(this);
             secondRow.setGravity(Gravity.CENTER);
             for(int i = ROW_DIVIDER; i < amount; i++){
-                createSingleDice(secondRow);
+                createSingleDice(secondRow, mDices);
             }
             mDiceLayout.addView(secondRow);
         }
     }
 
-    private void createSingleDice(LinearLayout layout){
+    private void createSingleDice(LinearLayout layout, List<Dice> list){
         Dice dice = new Dice(this);
+        list.add(dice);
         layout.addView(dice);
     }
 
-    class Dice extends AppCompatImageView {
+    public void rollDices(View view){
+        for(Dice dice: mDices){
+            dice.rollDice();
+        }
+    }
+
+    private class Dice extends AppCompatImageView {
+
+        private final int MAX = 6;
+
+        private int mValue;
 
         public Dice(Context context) {
             super(context);
-            setImageResource(R.drawable.dice_one);
+            rollDice();
+        }
+
+        public void rollDice(){
+            Random rand = new Random();
+            mValue = rand.nextInt(MAX) + 1;
+            setImage();
+        }
+
+        private void setImage(){
+            switch (mValue){
+                case 1:{
+                    setImageResource(R.drawable.dice_one);
+                    break;
+                }
+                case 2:{
+                    setImageResource(R.drawable.dice_two);
+                    break;
+                }
+                case 3:{
+                    setImageResource(R.drawable.dice_three);
+                    break;
+                }
+                case 4:{
+                    setImageResource(R.drawable.dice_four);
+                    break;
+                }
+                case 5:{
+                    setImageResource(R.drawable.dice_five);
+                    break;
+                }
+                case 6:{
+                    setImageResource(R.drawable.dice_six);
+                    break;
+                }
+            }
         }
     }
 }
