@@ -35,6 +35,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/btnHistory"
         app:layout_constraintBottom_toTopOf="@+id/btnRoll"
         app:layout_constraintEnd_toEndOf="parent"

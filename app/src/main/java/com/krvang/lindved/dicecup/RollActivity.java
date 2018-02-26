@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -63,6 +64,7 @@ public class RollActivity extends AppCompatActivity {
     private void createDiceBoard(int amount){
         mDiceLayout.removeAllViews();
         LinearLayout firstRow = new LinearLayout(this);
+        firstRow.setGravity(Gravity.CENTER);
         for (int i = 0; i < ROW_DIVIDER; i++){
             if(i < amount){
                 createSingleDice(firstRow);
@@ -71,6 +73,7 @@ public class RollActivity extends AppCompatActivity {
         mDiceLayout.addView(firstRow);
         if(amount > ROW_DIVIDER){
             LinearLayout secondRow = new LinearLayout(this);
+            secondRow.setGravity(Gravity.CENTER);
             for(int i = ROW_DIVIDER; i < amount; i++){
                 createSingleDice(secondRow);
             }
