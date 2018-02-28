@@ -94,6 +94,7 @@ public class RollActivity extends AppCompatActivity {
 
     private void createSingleDice(LinearLayout layout, List<Dice> list){
         Dice dice = new Dice(this);
+        dice.setPadding(5, 5, 5, 5);
         list.add(dice);
         layout.addView(dice);
     }
