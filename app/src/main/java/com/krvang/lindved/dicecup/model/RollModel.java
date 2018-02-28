@@ -41,4 +41,8 @@ public class RollModel {
         else
             return null;
     }
+
+    public void clearRolls(){
+        mRolls = new ArrayList<>();
+    }
 }

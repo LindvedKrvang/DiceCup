@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,6 +25,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private RollModel mRollModel;
     private ListView mList;
+    private ListViewAdapter mAdapter;
 
     public static Intent getIntent(Context packageContext){
         Intent intent = new Intent(packageContext, HistoryActivity.class);
@@ -35,9 +39,29 @@ public class HistoryActivity extends AppCompatActivity {
 
         mRollModel = RollModel.getInstance();
         mList = findViewById(R.id.lstRolls);
-        ListViewAdapter adapter = new ListViewAdapter();
-        mList.setAdapter(adapter);
+        mAdapter = new ListViewAdapter();
+        mList.setAdapter(mAdapter);
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.history_menu_actionbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_clear:{
+                mRollModel.clearRolls();
+                mAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class ListViewAdapter extends BaseAdapter{
@@ -82,8 +106,6 @@ public class HistoryActivity extends AppCompatActivity {
 
             return view;
         }
-
-
     }
 
     private class ViewHolder{
