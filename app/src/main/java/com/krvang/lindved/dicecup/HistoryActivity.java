@@ -97,6 +97,7 @@ public class HistoryActivity extends AppCompatActivity {
             Roll roll = mRollModel.getRoll(position);
             holder.mSum.setText(roll.getSum() + "");
 
+            holder.mDices.removeAllViews();
             for(int number: roll.getNumber()){
                 DiceImage image = new DiceImage(parent.getContext());
                 image.setImage(number);
