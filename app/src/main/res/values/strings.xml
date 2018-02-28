@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Dice Cup</string>
     <string name="roll">Roll</string>
+    <string name="history">History</string>
     <string-array name="number_of_dices">
         <item>1</item>
         <item>2</item>

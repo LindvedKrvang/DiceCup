@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,6 +51,25 @@ public class RollActivity extends AppCompatActivity {
         initializeLayout();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.roll_menu_actionbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menuGoToHistory:{
+                goToHistoryActivity();
+            }
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initializeLayout(){
         mDiceLayout = findViewById(R.id.diceLayout);
         createDiceBoard(Integer.parseInt(mNumbersSpinner.getSelectedItem().toString()));
@@ -79,14 +101,7 @@ public class RollActivity extends AppCompatActivity {
         });
     }
 
-    public void goToHistoryActivity(View view){
-        //TODO RKL: This method isn't implemented for indented purpose.
-//        for(Roll roll: mRollModel.getRolls()){
-//            for(int number: roll.getNumber()){
-//                Log.v("TEST", number + "");
-//            }
-//            Log.v("TEST", "-----------------------------------------");
-//        }
+    private void goToHistoryActivity(){
         Intent intent = HistoryActivity.getIntent(this);
         startActivity(intent);
     }
