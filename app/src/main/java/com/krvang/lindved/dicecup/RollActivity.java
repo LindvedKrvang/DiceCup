@@ -1,6 +1,8 @@
 package com.krvang.lindved.dicecup;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Debug;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.krvang.lindved.dicecup.be.Roll;
+import com.krvang.lindved.dicecup.model.RollModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,11 +35,14 @@ public class RollActivity extends AppCompatActivity {
     private Spinner mNumbersSpinner;
 
     private List<Dice> mDices;
+    private RollModel mRollModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roll);
+
+        mRollModel = RollModel.getInstance();
 
         initializeSpinner();
         initializeLayout();
@@ -71,6 +79,18 @@ public class RollActivity extends AppCompatActivity {
         });
     }
 
+    public void goToHistoryActivity(View view){
+        //TODO RKL: This method isn't implemented for indented purpose.
+//        for(Roll roll: mRollModel.getRolls()){
+//            for(int number: roll.getNumber()){
+//                Log.v("TEST", number + "");
+//            }
+//            Log.v("TEST", "-----------------------------------------");
+//        }
+        Intent intent = HistoryActivity.getIntent(this);
+        startActivity(intent);
+    }
+
     private void createDiceBoard(int amount){
         mDices = new ArrayList<>();
         mDiceLayout.removeAllViews();
@@ -100,10 +120,16 @@ public class RollActivity extends AppCompatActivity {
     }
 
     public void rollDices(View view){
+        List<Integer> rolls = new ArrayList<>();
         for(Dice dice: mDices){
             dice.rollDice();
+            rolls.add(dice.getVale());
         }
+        Roll roll = new Roll(rolls);
+        mRollModel.addRoll(roll);
     }
+
+
 
     private class Dice extends AppCompatImageView {
 
@@ -114,6 +140,10 @@ public class RollActivity extends AppCompatActivity {
         public Dice(Context context) {
             super(context);
             rollDice();
+        }
+
+        public int getVale(){
+            return mValue;
         }
 
         public void rollDice(){
